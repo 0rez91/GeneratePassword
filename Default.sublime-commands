@@ -17,5 +17,8 @@
 	}, {
 		"caption": "Generate long secure password",
 		"command": "generate_long_secure_password"
+	}, {
+		"caption": "Generate custom password",
+		"command": "generate_custom_password"
 	}
 ]

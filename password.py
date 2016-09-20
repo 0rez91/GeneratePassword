@@ -30,3 +30,44 @@ class GenerateMediumSecurePasswordCommand(GenerateMediumPasswordCommand):
     
 class GenerateLongSecurePasswordCommand(GenerateLongPasswordCommand):
     secure = True
+
+class GenerateCustomPasswordCommand(sublime_plugin.TextCommand):
+    patter = "Cvcvcv99"
+    result = ''
+    def run(self, edit):
+        self.edit = edit
+        self.view.window().show_input_panel("Input Pattern", self.patter, self.generate_string, None, None)
+        for region in self.view.sel():
+            self.view.replace(edit, region, self.result)
+
+    def generate_string(self, user_input):
+        self.patter = user_input
+        chars = "!@#$%^&*_-+=|/?:;<>~"
+        letter_upper = "BCDFGHJKLMNPQRSTVWXYZ"
+        letter_lower = "bcdfghjklmnpqrstvwxyz"
+        vowels_upper = "AEIOU"
+        vowels_lower = "aeiou"
+        digits = "0123456789"
+        result =""
+        for char in user_input:
+            if char == "/#":
+                flag = randrange(0, len(chars))
+                result += chars[flag]
+            elif char == "c":
+                flag = randrange(0, len(letter_lower))
+                result += letter_lower[flag]
+            elif char == "C":
+                flag = randrange(0, len(letter_upper))
+                result += letter_upper[flag]
+            elif char == "v":
+                flag = randrange(0, len(vowels_lower))
+                result += vowels_lower[flag]
+            elif char == "V":
+                flag = randrange(0, len(vowels_upper))
+                result += vowels_upper[flag]
+            elif char == "9":
+                flag = randrange(0, len(digits))
+                result += digits[flag]
+            else:
+                result += char
+        self.result = result
